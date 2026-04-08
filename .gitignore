@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated content (rebuilt from docx source)
+content/chapters/*.json
+!content/chapters/.gitkeep

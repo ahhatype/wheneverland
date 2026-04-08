@@ -1,26 +1,132 @@
 @import "tailwindcss";
 
+/* ── Color System ── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --bg: #ffffff;
+  --text: #000000;
+  --accent: #FF006E;
+  --accent-2: #FF6B35;
+  --muted: #666666;
+  --border: #e5e5e5;
+  --surface: #fafafa;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #000000;
+    --text: #ffffff;
+    --accent: #FF006E;
+    --accent-2: #FF6B35;
+    --muted: #999999;
+    --border: #333333;
+    --surface: #111111;
   }
 }
 
+/* ── Tailwind Theme ── */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-text: var(--text);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-surface: var(--surface);
+  --font-body: var(--font-source-sans);
+  --font-display: var(--font-compagnon);
+}
+
+/* ── Base ── */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ── Compagnon Font Face ── */
+@font-face {
+  font-family: "Compagnon";
+  src: url("/fonts/compagnon/Compagnon-Roman.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Compagnon";
+  src: url("/fonts/compagnon/Compagnon-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Compagnon";
+  src: url("/fonts/compagnon/Compagnon-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Compagnon";
+  src: url("/fonts/compagnon/Compagnon-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Prose / Book Typography ── */
+.prose-book {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--text);
+  max-width: 65ch;
+}
+
+.prose-book p {
+  margin-bottom: 1.5em;
+}
+
+.prose-book p:first-of-type::first-letter {
+  font-family: "Compagnon", serif;
+  font-size: 3.5em;
+  float: left;
+  line-height: 0.8;
+  margin-right: 0.08em;
+  margin-top: 0.05em;
+  color: var(--accent);
+}
+
+.prose-book em {
+  font-style: italic;
+}
+
+.prose-book strong {
+  font-weight: 600;
+}
+
+.prose-book blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1.25em;
+  margin: 2em 0;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* ── Chapter Title ── */
+.chapter-title {
+  font-family: "Compagnon", serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+/* ── Selection ── */
+::selection {
+  background: var(--accent);
+  color: var(--bg);
 }
