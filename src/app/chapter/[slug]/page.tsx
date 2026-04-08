@@ -4,6 +4,7 @@ import ChapterText from "@/components/ChapterText";
 import ChapterSidebar from "@/components/ChapterSidebar";
 import ChapterNav from "@/components/ChapterNav";
 import FloatingNav from "@/components/FloatingNav";
+import DownloadZine from "@/components/DownloadZine";
 import Placeholder from "@/components/chapters/Placeholder";
 import { getChapterComponent } from "@/components/chapters";
 import { getChapter, getAllChapters, getAllSlugs } from "@/lib/book";
@@ -28,6 +29,7 @@ export default async function ChapterPage({
 
   return (
     <>
+      <DownloadZine slug={slug} />
       <BookLayout
         left={
           <>

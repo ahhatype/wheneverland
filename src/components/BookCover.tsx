@@ -1,20 +1,12 @@
-import type { BookMeta } from "@/lib/types";
-
-export default function BookCover({ meta }: { meta: BookMeta }) {
+export default function BookCover() {
   return (
     <div className="flex flex-col items-center text-center py-16 px-6">
       <h1
-        className="text-6xl md:text-8xl font-bold tracking-tight leading-none mb-6"
-        style={{ fontFamily: "Compagnon, serif" }}
-      >
-        {meta.title}
+        className="text-7xl sm:text-9xl fancy font-bold leading-[0.5] break-word opacity-100">
+          east<br/>campus
       </h1>
-      <p className="text-lg text-muted mb-10" style={{ fontFamily: "Compagnon, serif", fontWeight: 300 }}>
-        by {meta.author}
-      </p>
-      <div className="w-16 h-px bg-accent mb-10" />
-      <p className="text-xl leading-relaxed max-w-lg text-muted">
-        {meta.blurb}
+      <p className="text-4xl sm:text-6xl text-white leading-[1.8] sm:leading-normal max-w-lg text-foreground font-thin">
+        a novel
       </p>
     </div>
   );

@@ -10,7 +10,7 @@ const sourceSans = Source_Sans_3({
 
 export const metadata: Metadata = {
   title: "Wheneverland",
-  description: "A story that unfolds in the spaces between moments.",
+  description: "A novel."
 };
 
 export default function RootLayout({

@@ -36,6 +36,11 @@
   --font-display: var(--font-compagnon);
 }
 
+/* ── Utilities ── */
+@utility fancy {
+  font-family: "Compagnon", serif;
+}
+
 /* ── Base ── */
 body {
   background: var(--bg);

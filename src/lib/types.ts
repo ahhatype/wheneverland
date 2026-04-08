@@ -2,6 +2,7 @@ export interface Chapter {
   slug: string;
   number: number;
   title: string;
+  subtitle?: string;
   component: string;
   content: string;
 }

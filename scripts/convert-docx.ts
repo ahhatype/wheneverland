@@ -12,10 +12,30 @@ function slugify(text: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
+const WORD_TO_NUM: Record<string, number> = {
+  one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8,
+  nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14,
+  fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20,
+};
+
+function parseChapterNumber(title: string): number | undefined {
+  // Try "Chapter <word>" e.g. "Chapter Five"
+  const wordMatch = title.match(/chapter\s+(\w+)/i);
+  if (wordMatch) {
+    const num = WORD_TO_NUM[wordMatch[1].toLowerCase()];
+    if (num) return num;
+  }
+  // Try "Chapter <digit>" e.g. "Chapter 5"
+  const digitMatch = title.match(/chapter\s+(\d+)/i);
+  if (digitMatch) return parseInt(digitMatch[1], 10);
+  return undefined;
+}
+
 interface ConvertedChapter {
   slug: string;
   number: number;
   title: string;
+  subtitle?: string;
   content: string;
 }
 
@@ -33,23 +53,33 @@ async function convertFile(filePath: string, chapterNumber: number): Promise<Con
   const parts = html.split(/(?=<h1>)/);
   const chapters: ConvertedChapter[] = [];
 
-  let num = chapterNumber;
+  let fallbackNum = chapterNumber;
   for (const part of parts) {
     const trimmed = part.trim();
     if (!trimmed) continue;
 
     // Extract title from <h1>
     const titleMatch = trimmed.match(/<h1>(.*?)<\/h1>/);
-    const title = titleMatch ? titleMatch[1].replace(/<[^>]*>/g, "") : `Chapter ${num}`;
+    const title = titleMatch ? titleMatch[1].replace(/<[^>]*>/g, "") : `Chapter ${fallbackNum}`;
+
+    // Parse chapter number from h1 title, fall back to sequential
+    const num = parseChapterNumber(title) ?? fallbackNum;
 
     // Remove the <h1> from content since we store title separately
-    const content = trimmed.replace(/<h1>.*?<\/h1>/, "").trim();
+    let content = trimmed.replace(/<h1>.*?<\/h1>/, "").trim();
+
+    // Extract first <h2> as subtitle (chapter name)
+    const subtitleMatch = content.match(/<h2>(.*?)<\/h2>/);
+    const subtitle = subtitleMatch ? subtitleMatch[1].replace(/<[^>]*>/g, "") : undefined;
+    if (subtitleMatch) {
+      content = content.replace(/<h2>.*?<\/h2>/, "").trim();
+    }
 
     if (!content) continue;
 
     const slug = slugify(title);
-    chapters.push({ slug, number: num, title, content });
-    num++;
+    chapters.push({ slug, number: num, title, subtitle, content });
+    fallbackNum++;
   }
 
   // If no <h1> found, treat entire doc as one chapter
@@ -69,6 +99,7 @@ async function convertFile(filePath: string, chapterNumber: number): Promise<Con
       slug: ch.slug,
       number: ch.number,
       title: ch.title,
+      ...(ch.subtitle ? { subtitle: ch.subtitle } : {}),
       component: `Chapter${ch.number}`,
       content: ch.content,
     };
@@ -131,16 +162,18 @@ async function main() {
     return;
   }
 
-  const allSlugs: string[] = [];
+  const allChapters: ConvertedChapter[] = [];
   let chapterNum = 1;
 
   for (const file of files) {
     const chapters = await convertFile(path.join(DOCX_DIR, file), chapterNum);
-    for (const ch of chapters) {
-      allSlugs.push(ch.slug);
-    }
+    allChapters.push(...chapters);
     chapterNum += chapters.length;
   }
+
+  // Sort by chapter number parsed from h1
+  allChapters.sort((a, b) => a.number - b.number);
+  const allSlugs = allChapters.map((ch) => ch.slug);
 
   writeMeta(allSlugs);
   console.log("Done.");
