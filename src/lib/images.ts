@@ -8,10 +8,20 @@ export interface BookImage {
 }
 
 export const IMAGES: Record<string, BookImage> = {
+  "mit-stairs": {
+    src: "/img/mit-stairs.jpg",
+    alt: "A concrete stairwell with pipe railings, flooded in hot pink",
+    caption: "Stairs to MIT tunnels",
+  },
   "simmons-snow-shift": {
     src: "/img/simmons-snow-shift.jpg",
     alt: "Simmons Hall in deep snow, its grid of windows color-shifted to magenta and acid green against a blank white field",
     caption: "Simmons, in snow",
+  },
+  "fire-extinguisher": {
+    src: "/img/fire-extinguisher.jpg",
+    alt: "Three red fire extinguishers lying on a white bedsheet, the image color-shifted to bleeding magenta and green",
+    caption: "Fire extinguisher",
   },
   bexley: {
     src: "/img/bexleyhall.jpg",
@@ -30,7 +40,7 @@ export const IMAGES: Record<string, BookImage> = {
  * scrolled past any [[img:…]] marker. Keyed by chapter slug.
  */
 export const CHAPTER_DEFAULT_IMAGE: Record<string, string> = {
-  "chapter-one": "simmons-snow-shift",
+  "chapter-one": "mit-stairs",
   "chapter-two": "collage",
   "chapter-three": "bexley",
   "chapter-four": "collage",

@@ -7,8 +7,12 @@ export interface Cue {
   title?: string;
 }
 
-// Placeholder ids — swap for the real tracks.
 export const CUES: Record<string, Cue> = {
+  "ice-of-boston": {
+    id: "p5dt_tJsqLc",
+    title: "The Ice of Boston — The Dismemberment Plan",
+  },
+  // Placeholder ids — swap for real tracks.
   stairwell: { id: "dQw4w9WgXcQ", title: "Never Gonna Give You Up" },
   proof: { id: "9bZkp7q19f0", title: "Gangnam Style" },
 };

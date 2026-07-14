@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:watch": "concurrently \"next dev\" \"tsx scripts/watch-docx.ts\"",
-    "build": "next build",
+    "build": "npm run convert && next build",
     "start": "next start",
     "lint": "eslint",
     "convert": "tsx scripts/convert-docx.ts"
