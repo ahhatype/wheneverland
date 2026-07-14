@@ -3,10 +3,10 @@ import BookLayout from "@/components/BookLayout";
 import ChapterText from "@/components/ChapterText";
 import ChapterSidebar from "@/components/ChapterSidebar";
 import ChapterNav from "@/components/ChapterNav";
+import ChapterImages from "@/components/ChapterImages";
+import ImageStage from "@/components/ImageStage";
 import FloatingNav from "@/components/FloatingNav";
-import DownloadZine from "@/components/DownloadZine";
-import Placeholder from "@/components/chapters/Placeholder";
-import { getChapterComponent } from "@/components/chapters";
+import { CHAPTER_DEFAULT_IMAGE, imageKeysIn } from "@/lib/images";
 import { getChapter, getAllChapters, getAllSlugs } from "@/lib/book";
 
 export const dynamic = "force-dynamic";
@@ -25,24 +25,26 @@ export default async function ChapterPage({
   if (!chapter) notFound();
 
   const chapters = getAllChapters();
-  const Component = getChapterComponent(chapter.component);
+  const imageKeys = imageKeysIn(chapter.content, slug);
+  const defaultImage = CHAPTER_DEFAULT_IMAGE[slug] ?? null;
 
   return (
     <>
-      <DownloadZine slug={slug} />
-      <BookLayout
-        left={
-          <>
-            <ChapterText chapter={chapter} />
-            <ChapterNav chapters={chapters} currentSlug={slug} />
-          </>
-        }
-        right={
-          <ChapterSidebar>
-            {Component ? <Component /> : <Placeholder title={chapter.title} />}
-          </ChapterSidebar>
-        }
-      />
+      <ChapterImages slug={slug} defaultKey={defaultImage}>
+        <BookLayout
+          left={
+            <>
+              <ChapterText chapter={chapter} />
+              <ChapterNav chapters={chapters} currentSlug={slug} />
+            </>
+          }
+          right={
+            <ChapterSidebar>
+              <ImageStage keys={imageKeys} />
+            </ChapterSidebar>
+          }
+        />
+      </ChapterImages>
       <FloatingNav chapters={chapters} currentSlug={slug} />
     </>
   );

@@ -85,23 +85,23 @@ body {
 .prose-book {
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   font-size: 1.125rem;
-  line-height: 1.8;
+  line-height: 1.65;
   color: var(--text);
   max-width: 65ch;
 }
 
 .prose-book p {
-  margin-bottom: 1.5em;
+  margin-bottom: 1em;
 }
 
 .prose-book p:first-of-type::first-letter {
   font-family: "Compagnon", serif;
-  font-size: 3.5em;
+  font-size: 4em;
   float: left;
   line-height: 0.8;
   margin-right: 0.08em;
-  margin-top: 0.05em;
-  color: var(--accent);
+  margin-top: -0.12em;
+  color: var(--accent-2);
 }
 
 .prose-book em {
@@ -120,14 +120,74 @@ body {
   color: var(--muted);
 }
 
+/* ── Scene Break (T1 style) ── */
+.prose-book p.break-t1 {
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
+  padding-top: 2em;
+  border-top: 1px solid var(--border);
+  text-indent: 0;
+}
+
+/* ── Text continuation (T style) ── */
+.prose-book p.text-t {
+  text-indent: 0;
+}
+
 /* ── Chapter Title ── */
 .chapter-title {
   font-family: "Compagnon", serif;
-  font-weight: 700;
-  font-size: 2.5rem;
-  line-height: 1.15;
+  font-weight: 400;
+  font-size: 3.7rem;
+  line-height: .85;
   letter-spacing: -0.02em;
   margin-bottom: 2rem;
+  text-transform: lowercase;
+  color: var(--accent)
+}
+
+/* ── Inline Cues ── */
+/* Read as prose, not chrome: the trigger stays buried in the sentence. */
+.prose-book .cue {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+
+.prose-book .cue:hover {
+  color: var(--accent);
+}
+
+.prose-book .cue-play:hover {
+  text-decoration-color: var(--accent-2);
+}
+
+.prose-book .cue-watch {
+  text-decoration-style: dotted;
+}
+
+/* ── Image Markers ── */
+/* A scroll anchor, not content: takes no space and never affects line breaks. */
+.prose-book .img-cue {
+  display: inline;
+  width: 0;
+  height: 0;
+  font-size: 0;
+  line-height: 0;
+}
+
+/* ── Jukebox ── */
+.jukebox-slot iframe {
+  display: block;
+  border: 1px solid var(--border);
 }
 
 /* ── Selection ── */

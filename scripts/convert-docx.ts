@@ -1,6 +1,8 @@
 import mammoth from "mammoth";
 import fs from "fs";
 import path from "path";
+import { expandCues } from "../src/lib/cues";
+import { expandImageCues } from "../src/lib/images";
 
 const DOCX_DIR = path.join(process.cwd(), "content/docx");
 const CHAPTERS_DIR = path.join(process.cwd(), "content/chapters");
@@ -41,7 +43,15 @@ interface ConvertedChapter {
 
 async function convertFile(filePath: string, chapterNumber: number): Promise<ConvertedChapter[]> {
   console.log(`Converting: ${filePath}`);
-  const result = await mammoth.convertToHtml({ path: filePath });
+  const result = await mammoth.convertToHtml(
+    { path: filePath },
+    {
+      styleMap: [
+        "p[style-name='T1'] => p.break-t1:fresh",
+        "p[style-name='T'] => p.text-t:fresh",
+      ],
+    },
+  );
 
   if (result.messages.length > 0) {
     console.log("Warnings:", result.messages);
@@ -78,18 +88,25 @@ async function convertFile(filePath: string, chapterNumber: number): Promise<Con
     if (!content) continue;
 
     const slug = slugify(title);
-    chapters.push({ slug, number: num, title, subtitle, content });
+    chapters.push({
+      slug,
+      number: num,
+      title,
+      subtitle,
+      content: expandImageCues(expandCues(content, title), title),
+    });
     fallbackNum++;
   }
 
   // If no <h1> found, treat entire doc as one chapter
   if (chapters.length === 0) {
     const fileName = path.basename(filePath, path.extname(filePath));
+    const title = fileName.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
     chapters.push({
       slug: slugify(fileName),
       number: chapterNumber,
-      title: fileName.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-      content: html,
+      title,
+      content: expandImageCues(expandCues(html, title), title),
     });
   }
 
@@ -156,7 +173,11 @@ async function main() {
     return;
   }
 
-  const files = fs.readdirSync(DOCX_DIR).filter((f) => f.endsWith(".docx")).sort();
+  // "~$…" files are Word's open-document lock files, not chapters.
+  const files = fs
+    .readdirSync(DOCX_DIR)
+    .filter((f) => f.endsWith(".docx") && !f.startsWith("~$"))
+    .sort();
   if (files.length === 0) {
     console.log("No .docx files found in content/docx/");
     return;

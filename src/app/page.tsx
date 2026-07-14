@@ -21,7 +21,7 @@ export default function Home() {
       </div>
       <div className="relative z-10 -mt-[15vh] w-xl mx-auto px-6 py-6 rounded-4xl bg-black/85">
         <HomeTOC chapters={chapters} />
-        <p className="text-white fancy text-xs mt-4 w-full text-center">This novel is incomplete. Email <span className="text-cyan-500 no-break">aimeewrightharrison[at]gmail[dot]com</span> if you are interested in an alert.</p>
+        <p className="text-white fancy text-xs mt-4 w-full text-center">This novel is still being released. Email <span className="text-cyan-500 no-break">aimeewrightharrison[at]gmail[dot]com</span> if you want to know when chapters are released.</p>
       </div>
       <div className="relative mx-0 bg-cyan-300/50 w-full -mt-8 px-6 pt-24 pb-8">
         <Colophon />

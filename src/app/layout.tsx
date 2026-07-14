@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Source_Sans_3 } from "next/font/google";
+import Jukebox from "@/components/Jukebox";
 import "./globals.css";
 
 const sourceSans = Source_Sans_3({
@@ -20,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${sourceSans.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <Jukebox>{children}</Jukebox>
+      </body>
     </html>
   );
 }

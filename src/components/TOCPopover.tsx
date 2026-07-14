@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DownloadZine from "./DownloadZine";
 import type { Chapter } from "@/lib/types";
 
 export default function TOCPopover({
@@ -22,19 +23,20 @@ export default function TOCPopover({
         {chapters.map((chapter) => {
           const isActive = chapter.slug === currentSlug;
           return (
-            <li key={chapter.slug}>
+            <li key={chapter.slug} className="flex items-baseline gap-3">
               <Link
                 href={`/chapter/${chapter.slug}`}
                 onClick={onSelect}
-                className={`flex items-baseline gap-3 py-1.5 text-sm transition-colors hover:text-accent ${
+                className={`flex flex-1 items-baseline gap-3 py-1.5 text-sm transition-colors hover:text-accent ${
                   isActive ? "text-accent" : ""
                 }`}
               >
                 <span className="text-[10px] text-muted tabular-nums" style={{ fontFamily: "Compagnon, serif" }}>
                   {String(chapter.number).padStart(2, "0")}
                 </span>
-                <span>{chapter.title}</span>
+                <span>{chapter.subtitle || chapter.title}</span>
               </Link>
+              <DownloadZine slug={chapter.slug} />
             </li>
           );
         })}
