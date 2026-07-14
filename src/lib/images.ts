@@ -78,7 +78,7 @@ export function imageKeysIn(content: string, slug: string): string[] {
 const IMG_TOKEN = /\[\[\s*img:\s*([a-z0-9_-]+)\s*\]\]/gi;
 
 export function expandImageCues(html: string, chapterTitle: string): string {
-  return html.replace(IMG_TOKEN, (_match, key: string) => {
+  const expanded = html.replace(IMG_TOKEN, (_match, key: string) => {
     if (!IMAGES[key]) {
       throw new Error(
         `Unknown image "${key}" in ${chapterTitle}. Add it to src/lib/images.ts or fix the typo.`,
@@ -86,4 +86,12 @@ export function expandImageCues(html: string, chapterTitle: string): string {
     }
     return `<span class="img-cue" data-img="${key}" aria-hidden="true"></span>`;
   });
+
+  // A marker written on its own line in Word arrives as its own <p>, which would
+  // leave an empty paragraph's worth of blank space in the prose. Unwrap it: the
+  // marker keeps its position in the scroll, but takes up no room.
+  return expanded.replace(
+    /<p[^>]*>\s*((?:<span class="img-cue"[^>]*><\/span>\s*)+)<\/p>/g,
+    "$1",
+  );
 }
