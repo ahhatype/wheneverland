@@ -8,7 +8,11 @@
 export interface YTPlayer {
   playVideo(): void;
   stopVideo(): void;
+  mute(): void;
   unMute(): void;
+  isMuted(): boolean;
+  /** -1 unstarted, 0 ended, 1 playing, 2 paused, 3 buffering, 5 cued. */
+  getPlayerState(): number;
   setVolume(volume: number): void;
   destroy(): void;
 }

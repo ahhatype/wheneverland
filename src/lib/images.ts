@@ -11,7 +11,12 @@ export const IMAGES: Record<string, BookImage> = {
   "mit-stairs": {
     src: "/img/mit-stairs.jpg",
     alt: "A concrete stairwell with pipe railings, flooded in hot pink",
-    caption: "Stairs to MIT tunnels",
+    caption: "Stairs, MIT",
+  },
+  "simmons-bed": {
+    src: "/img/simmons-bed.jpg",
+    alt: "A site-responsive lofted bed of light oak wood with sponge patterns on the ladder and bookshelves on the sides.",
+    caption: "Simmons, site-responsive bed",
   },
   "simmons-snow-shift": {
     src: "/img/simmons-snow-shift.jpg",
@@ -19,9 +24,9 @@ export const IMAGES: Record<string, BookImage> = {
     caption: "Simmons, in snow",
   },
   "fire-extinguisher": {
-    src: "/img/fire-extinguisher.jpg",
-    alt: "Three red fire extinguishers lying on a white bedsheet, the image color-shifted to bleeding magenta and green",
-    caption: "Fire extinguisher",
+    src: "/img/how-to-aim-a-fire-extinguisher-and-then-some.jpg",
+    alt: "Seen through the rain-flecked glass of a fire truck compartment: an orange bucket and a hanging rag, a building reflected in the glass",
+    caption: "Fire extinguished",
   },
   bexley: {
     src: "/img/bexleyhall.jpg",

@@ -121,9 +121,11 @@ body {
 }
 
 /* ── Scene Break (T1 style) ── */
+/* The break opens space above itself, against the scene it is leaving. Below it,
+   spacing is a normal paragraph gap — what follows is just the next paragraph. */
 .prose-book p.break-t1 {
   margin-top: 2.5em;
-  margin-bottom: 2.5em;
+  margin-bottom: 1em;
   padding-top: 2em;
   border-top: 1px solid var(--border);
   text-indent: 0;
@@ -174,9 +176,10 @@ body {
   text-decoration-style: dotted;
 }
 
-/* ── Image Markers ── */
-/* A scroll anchor, not content: takes no space and never affects line breaks. */
-.prose-book .img-cue {
+/* ── Invisible Markers ── */
+/* Scroll anchors, not content: take no space and never affect line breaks. */
+.prose-book .img-cue,
+.prose-book .cue-auto {
   display: inline;
   width: 0;
   height: 0;
